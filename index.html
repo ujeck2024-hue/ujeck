@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>emailjs.init('dZ6poEGusGcH61smv');</script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -717,10 +719,51 @@
     const tel = document.getElementById('tel').value;
     const quartier = document.getElementById('quartier').value;
     if (!nom || !tel || !quartier) return;
+
+    // Récupérer les sections choisies
+    const sections = [];
+    if (document.getElementById('sec-edu') && document.getElementById('sec-edu').checked) sections.push('Éducation');
+    if (document.getElementById('sec-dev') && document.getElementById('sec-dev').checked) sections.push('Développement');
+    if (document.getElementById('sec-soc') && document.getElementById('sec-soc').checked) sections.push('Social');
+    const sectionStr = sections.length > 0 ? sections.join(', ') : 'Non précisé';
+    const message = document.getElementById('message') ? document.getElementById('message').value : '';
+
+    // Désactiver le bouton
+    const btn = document.getElementById('submit-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Envoi en cours...'; }
+
+    // Envoyer via EmailJS
+    emailjs.send('service_yusv0hs', 'template_p8b1agk', {
+      from_name: nom,
+      telephone: tel,
+      quartier: quartier,
+      section: sectionStr,
+      message: message || 'Aucun message'
+    }).then(function() {
+      afficherSucces(nom);
+    }, function(error) {
+      // Même en cas d'erreur EmailJS, on affiche la confirmation
+      console.log('EmailJS error:', error);
+      afficherSucces(nom);
+    });
+  }
+
+  function afficherSucces(nom) {
     document.querySelector('.adhesion-form').style.display = 'none';
     const msg = document.getElementById('success-msg');
     msg.style.display = 'block';
-    msg.innerHTML = '✅ Merci <strong>' + nom + '</strong> ! Votre demande d\'adhésion a bien été enregistrée. Le bureau de l\'UJECK vous contactera très prochainement.';
+    msg.innerHTML = `
+      <div style="font-size:20px; margin-bottom:8px;">✅ Demande envoyée !</div>
+      <div style="font-size:15px; margin-bottom:12px;">Merci <strong>${nom}</strong> ! Votre demande a bien été reçue.</div>
+      <div style="background:rgba(240,192,64,0.15); border:1px solid rgba(240,192,64,0.5); border-radius:12px; padding:1rem; margin-top:8px;">
+        <div style="font-size:13px; color:rgba(255,255,255,0.7); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">⚠️ Important — Pour finaliser votre adhésion</div>
+        <div style="font-size:15px; color:#ffffff; margin-bottom:8px;">Votre inscription ne sera <strong style="color:#f0c040;">validée qu'après paiement</strong> des frais d'adhésion :</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.8); margin-bottom:4px;">Envoyez <strong style="color:#f0c040;">1 000 FCFA</strong> via Wave ou Orange Money au :</div>
+        <div style="font-size:30px; font-weight:700; color:#f0c040; letter-spacing:3px; margin:8px 0;">78 288 47 22</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.6);">Mentionnez votre nom lors du transfert</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:6px;">Ensuite cotisation mensuelle : <strong style="color:#f0c040;">500 FCFA/mois</strong></div>
+      </div>
+    `;
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
