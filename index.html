@@ -341,20 +341,22 @@
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.12);
-      color: var(--blanc);
+      color: #ffffff;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       outline: none;
       transition: border-color 0.2s;
+      -webkit-text-fill-color: #ffffff;
     }
     .adhesion-form input:focus { border-color: rgba(240,192,64,0.6); }
-    .adhesion-form input::placeholder { color: rgba(255,255,255,0.5); }
+    .adhesion-form input::placeholder { color: rgba(255,255,255,0.55); }
     .adhesion-form textarea {
       padding: 12px 18px;
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.12);
-      color: var(--blanc);
+      color: #ffffff;
+      -webkit-text-fill-color: #ffffff;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       outline: none;
@@ -363,7 +365,7 @@
       transition: border-color 0.2s;
     }
     .adhesion-form textarea:focus { border-color: rgba(240,192,64,0.6); }
-    .adhesion-form textarea::placeholder { color: rgba(255,255,255,0.5); }
+    .adhesion-form textarea::placeholder { color: rgba(255,255,255,0.55); }
     .adhesion-form button {
       background: var(--or);
       color: var(--vert-fonce);
@@ -691,7 +693,7 @@
       </div>
       <div class="contact-item">
         <div class="contact-label">✉️ Email</div>
-        <div class="contact-val"><a href="mailto:ujeck2024@gmail.com" style="color:#f0c040;text-decoration:none;">ujeck2024@gmail.com</a></div>
+        <div class="contact-val"><a href="mailto:ujeck2024@gmail.com?subject=Contact UJECK&body=Bonjour,%0A%0AJe vous contacte au sujet de l'UJECK.%0A%0ACordialement," style="color:#f0c040;text-decoration:none;">ujeck2024@gmail.com</a></div>
       </div>
     </div>
   </div>
@@ -713,6 +715,20 @@
 </footer>
 
 <script>
+  function toggleSection(lbl, id) {
+    const cb = document.getElementById('sec-' + id);
+    cb.checked = !cb.checked;
+    if (cb.checked) {
+      lbl.style.background = 'rgba(240,192,64,0.25)';
+      lbl.style.borderColor = '#f0c040';
+      lbl.style.color = '#f0c040';
+    } else {
+      lbl.style.background = 'rgba(255,255,255,0.1)';
+      lbl.style.borderColor = 'rgba(255,255,255,0.25)';
+      lbl.style.color = '#ffffff';
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const nom = document.getElementById('nom').value;
