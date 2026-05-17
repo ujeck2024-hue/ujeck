@@ -620,7 +620,7 @@
       </div>
       <form class="adhesion-form" onsubmit="handleSubmit(event)" id="adhesion-form">
         <input type="text" id="nom" placeholder="Votre nom complet" required />
-        <input type="tel" id="tel" placeholder="Numéro de téléphone" required />
+        <input type="tel" id="tel" placeholder="Numéro de téléphone" required inputmode="numeric" maxlength="14" oninput="formatTel(this)" />
         <input type="text" id="quartier" placeholder="Votre quartier / village" required />
         <div style="text-align:left; margin-top:4px;">
           <div style="font-size:12px; color:rgba(255,255,255,0.65); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Choisissez votre (vos) section(s)</div>
@@ -680,12 +680,12 @@
         <div class="contact-val">Ndiaga Lo</div>
       </div>
       <div class="contact-item">
-        <div class="contact-label">📞 Téléphone</div>
-        <div class="contact-val">78 335 75 13</div>
+        <div class="contact-label">📞 Président</div>
+        <div class="contact-val"><a href="tel:+221783357513" style="color:#f0c040;text-decoration:none;">78 335 75 13</a></div>
       </div>
       <div class="contact-item">
-        <div class="contact-label">Secrétaire Général</div>
-        <div class="contact-val">Babacar Fall</div>
+        <div class="contact-label">📞 Secrétaire Général</div>
+        <div class="contact-val"><a href="tel:+221779490848" style="color:#f0c040;text-decoration:none;">77 949 08 48</a></div>
       </div>
       <div class="contact-item">
         <div class="contact-label">Fondée le</div>
@@ -715,6 +715,16 @@
 </footer>
 
 <script>
+  function formatTel(input) {
+    let v = input.value.replace(/\D/g, '').slice(0, 9);
+    let formatted = '';
+    if (v.length > 0) formatted += v.slice(0, 2);
+    if (v.length > 2) formatted += ' ' + v.slice(2, 5);
+    if (v.length > 5) formatted += ' ' + v.slice(5, 7);
+    if (v.length > 7) formatted += ' ' + v.slice(7, 9);
+    input.value = formatted;
+  }
+
   function toggleSection(lbl, id) {
     const cb = document.getElementById('sec-' + id);
     cb.checked = !cb.checked;
