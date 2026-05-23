@@ -792,11 +792,29 @@
       <div style="margin-top:16px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.5); border-radius:12px; padding:1rem;">
         <div style="font-size:13px; color:rgba(37,211,102,0.9); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">💬 Rejoindre le groupe UJECK</div>
         <div style="font-size:13px; color:rgba(255,255,255,0.85); margin-bottom:12px;">Cliquez pour rejoindre le groupe WhatsApp officiel de l'UJECK :</div>
-        <a href="https://chat.whatsapp.com/JTGSBMGHr2rBjqP1j380eZ" target="_blank" style="display:inline-block; background:#25D366; color:#ffffff; font-weight:600; font-size:15px; padding:12px 24px; border-radius:10px; text-decoration:none; letter-spacing:0.5px;">
+        <a href="https://chat.whatsapp.com/JTGSBMGHr2rBjqP1j380eZ" target="_blank" onclick="ouvrirWhatsApp(event)" style="display:inline-block; background:#25D366; color:#ffffff; font-weight:600; font-size:15px; padding:12px 24px; border-radius:10px; text-decoration:none; letter-spacing:0.5px;">
           📱 Rejoindre le groupe WhatsApp
         </a>
       </div>
     `;
+  }
+
+  function ouvrirWhatsApp(e) {
+    e.preventDefault();
+    const lien = 'https://chat.whatsapp.com/JTGSBMGHr2rBjqP1j380eZ';
+    // Détecter si mobile ou PC
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      // Sur téléphone : ouvre l'app WhatsApp directement
+      window.location.href = lien;
+    } else {
+      // Sur PC : ouvre WhatsApp Web dans un nouvel onglet
+      window.open('https://web.whatsapp.com/accept?code=JTGSBMGHr2rBjqP1j380eZ', '_blank');
+      // Fallback si WhatsApp Web ne marche pas
+      setTimeout(function() {
+        window.open(lien, '_blank');
+      }, 1500);
+    }
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
