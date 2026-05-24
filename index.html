@@ -647,21 +647,44 @@
 
       <!-- ÉTAPE 2 : Paiement -->
       <div id="etape-2" style="display:none;">
-        <div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:8px;">💸 Étape 2 — Paiement</div>
-        <div style="font-size:15px;color:rgba(240,192,64,0.85);margin-bottom:1.5rem;">Envoyez les frais d'adhésion avant de finaliser</div>
-        <div style="background:rgba(240,192,64,0.12);border:2px solid rgba(240,192,64,0.5);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
-          <div style="font-size:13px;color:rgba(240,192,64,0.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Montant à envoyer</div>
-          <div style="font-size:42px;font-weight:700;color:#F5C500;letter-spacing:2px;margin-bottom:4px;">1 000 <span style="font-size:20px;">FCFA</span></div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.7);">Frais uniques d'entrée</div>
+        <div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:6px;">💸 Paiement des frais</div>
+        <div style="font-size:14px;color:rgba(240,192,64,0.85);margin-bottom:1.25rem;">Votre demande est enregistrée ! Payez maintenant pour finaliser.</div>
+
+        <!-- Montant -->
+        <div style="background:rgba(240,192,64,0.12);border:2px solid rgba(240,192,64,0.5);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem;">
+          <div style="font-size:11px;color:rgba(240,192,64,0.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Montant à envoyer</div>
+          <div style="font-size:40px;font-weight:700;color:#F5C500;letter-spacing:2px;">1 000 <span style="font-size:18px;">FCFA</span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;">au numéro <strong style="color:#ffffff;letter-spacing:2px;">78 288 47 22</strong></div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;">Mentionnez votre nom lors du transfert</div>
         </div>
-        <div style="background:rgba(0,153,255,0.12);border:1px solid rgba(0,153,255,0.4);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
-          <div style="font-size:13px;color:rgba(0,200,255,0.9);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📱 Via Wave ou Orange Money au numéro</div>
-          <div style="font-size:36px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">78 288 47 22</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.65);">Mentionnez votre nom lors du transfert</div>
+
+        <!-- Boutons Wave / Orange Money -->
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">👆 Choisissez votre moyen de paiement :</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;">
+
+          <div id="btn-wave" onclick="ouvrirWave()" style="display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(30,144,255,0.15);border:2px solid rgba(30,144,255,0.5);border-radius:14px;padding:1.1rem 1.75rem;cursor:pointer;flex:1;min-width:110px;transition:all 0.2s;">
+            <div style="font-size:34px;">🌊</div>
+            <div style="font-size:16px;font-weight:700;color:#ffffff;">Wave</div>
+            <div style="font-size:11px;color:rgba(100,200,255,0.9);">Payer avec Wave</div>
+          </div>
+
+          <div id="btn-om" onclick="ouvrirOrangeMoney()" style="display:flex;flex-direction:column;align-items:center;gap:6px;background:rgba(255,140,0,0.15);border:2px solid rgba(255,140,0,0.5);border-radius:14px;padding:1.1rem 1.75rem;cursor:pointer;flex:1;min-width:110px;transition:all 0.2s;">
+            <div style="font-size:34px;">🟠</div>
+            <div style="font-size:16px;font-weight:700;color:#ffffff;">Orange Money</div>
+            <div style="font-size:11px;color:rgba(255,170,0,0.9);">Payer avec Orange Money</div>
+          </div>
         </div>
+
+        <!-- Message après clic sur Wave/OM -->
+        <div id="msg-apres-clic" style="display:none;background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.4);border-radius:10px;padding:0.75rem;margin-bottom:1rem;font-size:13px;color:rgba(46,204,113,0.95);">
+          ✅ Effectuez le transfert de <strong>1 000 FCFA</strong> au <strong>78 288 47 22</strong>, puis revenez cliquer sur "J'ai payé".
+        </div>
+
+        <!-- Boutons J'ai payé (désactivé) + Retour -->
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-          <button onclick="etapeSuivante()" type="button" style="background:linear-gradient(135deg,#F5C500,#d4a900);color:#1a1f6e;font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;flex:1;min-width:160px;">
-            ✅ J'ai payé — Continuer
+          <button onclick="etapeSuivante()" id="btn-jpaye" type="button" disabled
+            style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.35);font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);cursor:not-allowed;flex:1;min-width:160px;transition:all 0.3s;">
+            ✅ J'ai payé — Confirmer
           </button>
           <button onclick="retourEtape1()" type="button" style="background:rgba(255,255,255,0.1);color:#ffffff;font-size:14px;padding:14px 20px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);cursor:pointer;">
             ← Retour
