@@ -647,21 +647,42 @@
 
       <!-- ÉTAPE 2 : Paiement -->
       <div id="etape-2" style="display:none;">
-        <div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:8px;">💸 Étape 2 — Paiement</div>
-        <div style="font-size:15px;color:rgba(240,192,64,0.85);margin-bottom:1.5rem;">Envoyez les frais d'adhésion avant de finaliser</div>
-        <div style="background:rgba(240,192,64,0.12);border:2px solid rgba(240,192,64,0.5);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
-          <div style="font-size:13px;color:rgba(240,192,64,0.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Montant à envoyer</div>
-          <div style="font-size:42px;font-weight:700;color:#F5C500;letter-spacing:2px;margin-bottom:4px;">1 000 <span style="font-size:20px;">FCFA</span></div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.7);">Frais uniques d'entrée</div>
+        <div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:6px;">💸 Paiement des frais</div>
+        <div style="font-size:15px;color:rgba(240,192,64,0.85);margin-bottom:1.5rem;">Votre demande a été enregistrée ! Payez maintenant pour finaliser.</div>
+
+        <!-- Montant -->
+        <div style="background:rgba(240,192,64,0.12);border:2px solid rgba(240,192,64,0.5);border-radius:16px;padding:1.25rem;margin-bottom:1.25rem;">
+          <div style="font-size:12px;color:rgba(240,192,64,0.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Montant à envoyer</div>
+          <div style="font-size:40px;font-weight:700;color:#F5C500;letter-spacing:2px;">1 000 <span style="font-size:18px;">FCFA</span></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;">au numéro <strong style="color:#ffffff;letter-spacing:2px;">78 288 47 22</strong></div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">Mentionnez votre nom lors du transfert</div>
         </div>
-        <div style="background:rgba(0,153,255,0.12);border:1px solid rgba(0,153,255,0.4);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
-          <div style="font-size:13px;color:rgba(0,200,255,0.9);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📱 Via Wave ou Orange Money au numéro</div>
-          <div style="font-size:36px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">78 288 47 22</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.65);">Mentionnez votre nom lors du transfert</div>
+
+        <!-- Choisir Wave ou Orange Money -->
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Choisissez votre moyen de paiement :</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:1.25rem;">
+
+          <!-- Wave -->
+          <a href="https://sendsms.wave.com/transfer?phone=78288472&amount=1000&currency=XOF" target="_blank" onclick="apresChoixPaiement(event, this.href)"
+            style="display:flex;flex-direction:column;align-items:center;gap:8px;background:rgba(0,153,255,0.15);border:2px solid rgba(0,153,255,0.5);border-radius:14px;padding:1.25rem 2rem;text-decoration:none;cursor:pointer;flex:1;min-width:120px;transition:all 0.2s;">
+            <div style="font-size:32px;">🌊</div>
+            <div style="font-size:16px;font-weight:700;color:#ffffff;">Wave</div>
+            <div style="font-size:11px;color:rgba(0,200,255,0.85);">Payer avec Wave</div>
+          </a>
+
+          <!-- Orange Money -->
+          <a href="https://om.orange.sn/paiement?destinataire=78288472&montant=1000" target="_blank" onclick="apresChoixPaiement(event, this.href)"
+            style="display:flex;flex-direction:column;align-items:center;gap:8px;background:rgba(255,140,0,0.15);border:2px solid rgba(255,140,0,0.5);border-radius:14px;padding:1.25rem 2rem;text-decoration:none;cursor:pointer;flex:1;min-width:120px;transition:all 0.2s;">
+            <div style="font-size:32px;">🟠</div>
+            <div style="font-size:16px;font-weight:700;color:#ffffff;">Orange Money</div>
+            <div style="font-size:11px;color:rgba(255,160,0,0.9);">Payer avec Orange Money</div>
+          </a>
         </div>
+
+        <!-- Bouton J'ai payé + Retour -->
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-          <button onclick="etapeSuivante()" type="button" style="background:linear-gradient(135deg,#F5C500,#d4a900);color:#1a1f6e;font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;flex:1;min-width:160px;">
-            ✅ J'ai payé — Continuer
+          <button onclick="etapeSuivante()" type="button" style="background:linear-gradient(135deg,#2ECC71,#27AE60);color:#ffffff;font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;flex:1;min-width:160px;">
+            ✅ J'ai payé — Confirmer
           </button>
           <button onclick="retourEtape1()" type="button" style="background:rgba(255,255,255,0.1);color:#ffffff;font-size:14px;padding:14px 20px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);cursor:pointer;">
             ← Retour
@@ -809,6 +830,12 @@
     });
   }
 
+  function apresChoixPaiement(e, url) {
+    // Ouvrir l'app de paiement dans un nouvel onglet
+    e.preventDefault();
+    window.open(url, '_blank');
+  }
+
   function passerEtape2(nom) {
     // Sauvegarder le nom pour l'étape 3
     window._nomAdherent = nom;
@@ -833,6 +860,16 @@
     document.getElementById('ind-3').querySelector('div').style.color = '#ffffff';
     document.getElementById('ind-3').querySelectorAll('div')[1].style.color = '#2ECC71';
     document.getElementById('ind-3').querySelectorAll('div')[1].style.fontWeight = '600';
+    // Ouvrir WhatsApp automatiquement après 1.5 secondes
+    setTimeout(function() {
+      const lien = 'https://chat.whatsapp.com/JTGSBMGHr2rBjqP1j380eZ';
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = lien;
+      } else {
+        window.open('https://web.whatsapp.com/accept?code=JTGSBMGHr2rBjqP1j380eZ', '_blank');
+      }
+    }, 1500);
   }
 
   function retourEtape1() {
