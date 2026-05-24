@@ -810,28 +810,34 @@
   }
 
   function ouvrirWave() {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) {
-      // Sur téléphone : ouvre l'app Wave via deeplink
-      window.location.href = 'wave://';
-    }
-    // Afficher les instructions et activer le bouton
+    // Lien Wave Pay officiel — ouvre l'app Wave sur téléphone directement
+    window.open('https://pay.wave.com/m/M_OfAgT7X9iMN3/c/sn/', '_blank');
     activerBoutonPaye('wave');
-    // Afficher instruction spécifique Wave
     document.getElementById('msg-apres-clic').innerHTML =
-      '🌊 <strong>Wave :</strong> Ouvrez votre app Wave → Envoyer → tapez <strong style="color:#F5C500;letter-spacing:2px;">78 288 47 22</strong> → montant <strong style="color:#F5C500;">1 000 FCFA</strong> → Confirmer. Puis revenez cliquer "J\'ai payé".';
+      '🌊 <strong>Wave ouvert !</strong> Vérifiez que le montant est <strong style="color:#F5C500;">1 000 FCFA</strong> et le numéro <strong style="color:#F5C500;">78 288 47 22</strong>, puis confirmez. Revenez ici cliquer "J\'ai payé".';
     document.getElementById('msg-apres-clic').style.display = 'block';
   }
 
   function ouvrirOrangeMoney() {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) {
-      // Sur téléphone : compose le USSD Orange Money
-      window.location.href = 'tel:*144#';
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isAndroid) {
+      // Ouvre MaxIt sur Android
+      window.location.href = 'intent://send?to=78288472&amount=1000#Intent;scheme=maxit;package=com.orange.sn.maxit;end';
+      setTimeout(function() {
+        window.open('https://play.google.com/store/apps/details?id=com.orange.sn.maxit', '_blank');
+      }, 2000);
+    } else if (isIOS) {
+      window.location.href = 'maxit://send?to=78288472&amount=1000';
+      setTimeout(function() {
+        window.open('https://apps.apple.com/sn/app/maxit/id1458054573', '_blank');
+      }, 2000);
+    } else {
+      window.open('https://play.google.com/store/apps/details?id=com.orange.sn.maxit', '_blank');
     }
     activerBoutonPaye('om');
     document.getElementById('msg-apres-clic').innerHTML =
-      '🟠 <strong>Orange Money :</strong> Composez <strong style="color:#F5C500;">*144#</strong> ou ouvrez l\'app Orange Money → Transfert → tapez <strong style="color:#F5C500;letter-spacing:2px;">78 288 47 22</strong> → montant <strong style="color:#F5C500;">1 000 FCFA</strong>. Puis revenez cliquer "J\'ai payé".';
+      '🟠 <strong>MaxIt ouvert !</strong> Transférez <strong style="color:#F5C500;">1 000 FCFA</strong> au <strong style="color:#F5C500;">78 288 47 22</strong>, puis revenez cliquer "J\'ai payé".';
     document.getElementById('msg-apres-clic').style.display = 'block';
   }
 
