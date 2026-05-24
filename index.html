@@ -601,23 +601,26 @@
     <div class="adhesion-box">
       <h3 style="color:#ffffff;">Rejoignez l'UJECK</h3>
       <p>Vous êtes jeune de Keur Momar Sarr ou originaire de la commune ? Rejoignez-nous et participez au développement de votre territoire.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
-        <div style="background:rgba(0,153,255,0.12);border:1px solid rgba(245,197,0,0.5);border-radius:12px;padding:1rem 1.5rem;min-width:140px;">
-          <div style="font-size:11px;color:rgba(240,192,64,0.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Adhésion</div>
-          <div style="font-size:24px;font-weight:500;color:#f0c040;">1 000 <span style="font-size:14px;">FCFA</span></div>
-          <div style="font-size:12px;color:rgba(240,192,64,0.65);margin-top:2px;">Frais uniques d'entrée</div>
+
+      <!-- Indicateur d'étapes -->
+      <div id="etapes-indicateur" style="display:flex;justify-content:center;align-items:center;gap:0;margin-bottom:2rem;">
+        <div id="ind-1" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#F5C500;color:#1a1f6e;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;">1</div>
+          <div style="font-size:11px;color:#F5C500;font-weight:600;">Infos</div>
         </div>
-        <div style="background:rgba(0,153,255,0.12);border:1px solid rgba(245,197,0,0.5);border-radius:12px;padding:1rem 1.5rem;min-width:140px;">
-          <div style="font-size:11px;color:rgba(240,192,64,0.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Mensualité</div>
-          <div style="font-size:24px;font-weight:500;color:#f0c040;">500 <span style="font-size:14px;">FCFA</span></div>
-          <div style="font-size:12px;color:rgba(240,192,64,0.65);margin-top:2px;">Cotisation mensuelle</div>
+        <div style="width:50px;height:2px;background:rgba(255,255,255,0.2);margin-bottom:16px;"></div>
+        <div id="ind-2" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;">2</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);">Paiement</div>
+        </div>
+        <div style="width:50px;height:2px;background:rgba(255,255,255,0.2);margin-bottom:16px;"></div>
+        <div id="ind-3" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;">3</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);">Confirmation</div>
         </div>
       </div>
-      <div style="background:rgba(0,153,255,0.1);border:1px solid rgba(245,197,0,0.4);border-radius:14px;padding:1.25rem 1.75rem;margin-bottom:1.5rem;display:inline-block;">
-        <div style="font-size:12px;color:rgba(240,192,64,0.75);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">💸 Paiement via Wave ou Orange Money</div>
-        <div style="font-size:26px;font-weight:600;color:#f0c040;letter-spacing:2px;">78 288 47 22</div>
-        <div style="font-size:12px;color:rgba(240,192,64,0.65);margin-top:4px;">Envoyez votre paiement à ce numéro</div>
-      </div>
+      <!-- ÉTAPE 1 : Infos -->
+      <div id="etape-1">
       <form class="adhesion-form" onsubmit="handleSubmit(event)" id="adhesion-form">
         <input type="text" id="nom" placeholder="Votre nom complet" required />
         <input type="tel" id="tel" placeholder="Numéro de téléphone" required inputmode="numeric" maxlength="14" oninput="formatTel(this)" />
@@ -640,16 +643,52 @@
         <textarea id="message" placeholder="Pourquoi souhaitez-vous rejoindre l'UJECK ? (optionnel)"></textarea>
         <button type="submit" id="submit-btn">Envoyer ma demande d'adhésion →</button>
       </form>
-      <div class="success-msg" id="success-msg" style="display:none;">
-        <div style="font-size:20px; margin-bottom:8px;">✅ Demande envoyée !</div>
-        <div id="success-name" style="font-size:15px; margin-bottom:12px;"></div>
-        <div style="background:rgba(240,192,64,0.15); border:1px solid rgba(240,192,64,0.5); border-radius:12px; padding:1rem; margin-top:8px;">
-          <div style="font-size:13px; color:rgba(240,192,64,0.8); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">⚠️ Pour confirmer votre adhésion</div>
-          <div style="font-size:15px; color:#ffffff; margin-bottom:6px;">Envoyez <strong style="color:#f0c040;">1 000 FCFA</strong> via Wave ou Orange Money au :</div>
-          <div style="font-size:28px; font-weight:600; color:#f0c040; letter-spacing:2px;">78 288 47 22</div>
-          <div style="font-size:13px; color:rgba(240,192,64,0.75); margin-top:6px;">Mentionnez votre nom lors du transfert</div>
+      </div><!-- fin etape-1 -->
+
+      <!-- ÉTAPE 2 : Paiement -->
+      <div id="etape-2" style="display:none;">
+        <div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:8px;">💸 Étape 2 — Paiement</div>
+        <div style="font-size:15px;color:rgba(240,192,64,0.85);margin-bottom:1.5rem;">Envoyez les frais d'adhésion avant de finaliser</div>
+        <div style="background:rgba(240,192,64,0.12);border:2px solid rgba(240,192,64,0.5);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
+          <div style="font-size:13px;color:rgba(240,192,64,0.8);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Montant à envoyer</div>
+          <div style="font-size:42px;font-weight:700;color:#F5C500;letter-spacing:2px;margin-bottom:4px;">1 000 <span style="font-size:20px;">FCFA</span></div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.7);">Frais uniques d'entrée</div>
+        </div>
+        <div style="background:rgba(0,153,255,0.12);border:1px solid rgba(0,153,255,0.4);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;">
+          <div style="font-size:13px;color:rgba(0,200,255,0.9);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📱 Via Wave ou Orange Money au numéro</div>
+          <div style="font-size:36px;font-weight:700;color:#ffffff;letter-spacing:4px;margin-bottom:6px;">78 288 47 22</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.65);">Mentionnez votre nom lors du transfert</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+          <button onclick="etapeSuivante()" type="button" style="background:linear-gradient(135deg,#F5C500,#d4a900);color:#1a1f6e;font-weight:700;font-size:15px;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;flex:1;min-width:160px;">
+            ✅ J'ai payé — Continuer
+          </button>
+          <button onclick="retourEtape1()" type="button" style="background:rgba(255,255,255,0.1);color:#ffffff;font-size:14px;padding:14px 20px;border-radius:12px;border:1px solid rgba(255,255,255,0.3);cursor:pointer;">
+            ← Retour
+          </button>
         </div>
       </div>
+
+      <!-- ÉTAPE 3 : Confirmation -->
+      <div id="etape-3" style="display:none;">
+        <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+        <div style="font-size:22px;font-weight:700;color:#ffffff;margin-bottom:8px;">Adhésion complète !</div>
+        <div id="success-name" style="font-size:15px;color:rgba(240,192,64,0.9);margin-bottom:1.5rem;"></div>
+        <div style="background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.4);border-radius:14px;padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:13px;color:rgba(46,204,113,0.9);margin-bottom:4px;">✅ Formulaire soumis</div>
+          <div style="font-size:13px;color:rgba(46,204,113,0.9);">✅ Paiement effectué</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:8px;">Le bureau UJECK vous contactera pour valider votre dossier.</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:4px;">Cotisation mensuelle : <strong style="color:#F5C500;">500 FCFA/mois</strong></div>
+        </div>
+        <div style="background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.4);border-radius:14px;padding:1.25rem;">
+          <div style="font-size:13px;color:rgba(37,211,102,0.9);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">💬 Rejoindre le groupe WhatsApp</div>
+          <a href="https://chat.whatsapp.com/JTGSBMGHr2rBjqP1j380eZ" target="_blank" onclick="ouvrirWhatsApp(event)" style="display:inline-block;background:#25D366;color:#ffffff;font-weight:700;font-size:15px;padding:13px 26px;border-radius:10px;text-decoration:none;">
+            📱 Rejoindre le groupe UJECK
+          </a>
+        </div>
+      </div>
+
+      <div class="success-msg" id="success-msg" style="display:none;"></div>
     </div>
   </div>
 </div>
@@ -746,7 +785,6 @@
     const quartier = document.getElementById('quartier').value;
     if (!nom || !tel || !quartier) return;
 
-    // Récupérer les sections choisies
     const sections = [];
     if (document.getElementById('sec-edu') && document.getElementById('sec-edu').checked) sections.push('Éducation');
     if (document.getElementById('sec-dev') && document.getElementById('sec-dev').checked) sections.push('Développement');
@@ -754,11 +792,9 @@
     const sectionStr = sections.length > 0 ? sections.join(', ') : 'Non précisé';
     const message = document.getElementById('message') ? document.getElementById('message').value : '';
 
-    // Désactiver le bouton
     const btn = document.getElementById('submit-btn');
     if (btn) { btn.disabled = true; btn.textContent = 'Envoi en cours...'; }
 
-    // Envoyer via EmailJS
     emailjs.send('service_yusv0hs', 'template_p8b1agk', {
       from_name: nom,
       telephone: tel,
@@ -766,37 +802,50 @@
       section: sectionStr,
       message: message || 'Aucun message'
     }).then(function() {
-      afficherSucces(nom);
+      passerEtape2(nom);
     }, function(error) {
-      // Même en cas d'erreur EmailJS, on affiche la confirmation
       console.log('EmailJS error:', error);
-      afficherSucces(nom);
+      passerEtape2(nom);
     });
   }
 
+  function passerEtape2(nom) {
+    // Sauvegarder le nom pour l'étape 3
+    window._nomAdherent = nom;
+    // Cacher étape 1, montrer étape 2
+    document.getElementById('etape-1').style.display = 'none';
+    document.getElementById('etape-2').style.display = 'block';
+    // Mettre à jour indicateur
+    document.getElementById('ind-2').querySelector('div').style.background = '#F5C500';
+    document.getElementById('ind-2').querySelector('div').style.color = '#1a1f6e';
+    document.getElementById('ind-2').querySelectorAll('div')[1].style.color = '#F5C500';
+    document.getElementById('ind-2').querySelectorAll('div')[1].style.fontWeight = '600';
+  }
+
+  function etapeSuivante() {
+    const nom = window._nomAdherent || '';
+    document.getElementById('etape-2').style.display = 'none';
+    document.getElementById('etape-3').style.display = 'block';
+    const sn = document.getElementById('success-name');
+    if (sn) sn.textContent = 'Bienvenue ' + nom + ' dans la famille UJECK ! 🎉';
+    // Mettre à jour indicateur étape 3
+    document.getElementById('ind-3').querySelector('div').style.background = '#2ECC71';
+    document.getElementById('ind-3').querySelector('div').style.color = '#ffffff';
+    document.getElementById('ind-3').querySelectorAll('div')[1].style.color = '#2ECC71';
+    document.getElementById('ind-3').querySelectorAll('div')[1].style.fontWeight = '600';
+  }
+
+  function retourEtape1() {
+    document.getElementById('etape-2').style.display = 'none';
+    document.getElementById('etape-1').style.display = 'block';
+    const btn = document.getElementById('submit-btn');
+    if (btn) { btn.disabled = false; btn.textContent = "Envoyer ma demande d'adhésion →"; }
+    document.getElementById('ind-2').querySelector('div').style.background = 'rgba(255,255,255,0.15)';
+    document.getElementById('ind-2').querySelector('div').style.color = 'rgba(255,255,255,0.5)';
+  }
+
   function afficherSucces(nom) {
-    document.querySelector('.adhesion-form').style.display = 'none';
-    const msg = document.getElementById('success-msg');
-    msg.style.display = 'block';
-    msg.innerHTML = `
-      <div style="font-size:20px; margin-bottom:8px;">✅ Demande envoyée !</div>
-      <div style="font-size:15px; margin-bottom:12px;">Merci <strong>${nom}</strong> ! Votre demande a bien été reçue.</div>
-      <div style="background:rgba(240,192,64,0.15); border:1px solid rgba(240,192,64,0.5); border-radius:12px; padding:1rem; margin-top:8px;">
-        <div style="font-size:13px; color:rgba(240,192,64,0.8); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px;">⚠️ Important — Pour finaliser votre adhésion</div>
-        <div style="font-size:15px; color:#ffffff; margin-bottom:8px;">Votre inscription ne sera <strong style="color:#f0c040;">validée qu'après paiement</strong> des frais d'adhésion :</div>
-        <div style="font-size:13px; color:rgba(240,192,64,0.85); margin-bottom:4px;">Envoyez <strong style="color:#f0c040;">1 000 FCFA</strong> via Wave ou Orange Money au :</div>
-        <div style="font-size:30px; font-weight:700; color:#f0c040; letter-spacing:3px; margin:8px 0;">78 288 47 22</div>
-        <div style="font-size:13px; color:rgba(240,192,64,0.75);">Mentionnez votre nom lors du transfert</div>
-        <div style="font-size:13px; color:rgba(240,192,64,0.75); margin-top:6px;">Ensuite cotisation mensuelle : <strong style="color:#f0c040;">500 FCFA/mois</strong></div>
-      </div>
-      <div style="margin-top:16px; background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.5); border-radius:12px; padding:1rem;">
-        <div style="font-size:13px; color:rgba(37,211,102,0.9); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">💬 Rejoindre le groupe UJECK</div>
-        <div style="font-size:13px; color:rgba(255,255,255,0.85); margin-bottom:12px;">Cliquez pour rejoindre le groupe WhatsApp officiel de l'UJECK :</div>
-        <a href="https://chat.whatsapp.com/JTGSBMGHr2rBjqP1j380eZ" target="_blank" onclick="ouvrirWhatsApp(event)" style="display:inline-block; background:#25D366; color:#ffffff; font-weight:600; font-size:15px; padding:12px 24px; border-radius:10px; text-decoration:none; letter-spacing:0.5px;">
-          📱 Rejoindre le groupe WhatsApp
-        </a>
-      </div>
-    `;
+    passerEtape2(nom);
   }
 
   function ouvrirWhatsApp(e) {
