@@ -195,8 +195,13 @@
             </div>
             <div>
               <label for="tel">Numéro de téléphone</label>
-              <input id="tel" name="tel" type="tel" inputmode="numeric" placeholder="+221 77 000 00 00" pattern="^(\\+?221)?\\s?\\d{2}\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}$" required aria-describedby="tel-help">
-              <div id="tel-help" class="help">Format recommandé : +221 77 000 00 00.</div>
+              <input
+                id="tel" name="tel" type="tel" inputmode="tel"
+                placeholder="+221 77 000 00 00 ou 770000000"
+                pattern="^(\+?221|00221)?\s*[ .-]?\s*7\d{2}([ .-]?\d{2}){3}$|^7\d{8}$"
+                required
+                aria-describedby="tel-help">
+              <div id="tel-help" class="help">Accepte: 783357513, 78 335 75 13, +221 78 335 75 13…</div>
             </div>
           </div>
 
@@ -262,7 +267,11 @@
               </div>
               <div>
                 <label for="payer-tel">Téléphone (même que l’envoi)</label>
-                <input id="payer-tel" name="payerTel" type="tel" required placeholder="+221 77 000 00 00">
+                <input
+                  id="payer-tel" name="payerTel" type="tel" inputmode="tel"
+                  placeholder="+221 77 000 00 00 ou 770000000"
+                  pattern="^(\+?221|00221)?\s*[ .-]?\s*7\d{2}([ .-]?\d{2}){3}$|^7\d{8}$"
+                  required>
               </div>
             </div>
 
@@ -354,14 +363,23 @@
   </footer>
 
   <script>
-    // Utils
-    const snPhoneRegex = /^(\\+?221)?\\s?\\d{2}\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}$/;
-    const encode = (s) => encodeURIComponent(s).replace(/%20/g,'+');
+    // Regex SN tolérante: 783357513, 78 335 75 13, +221 78 335 75 13, 00221 78 335 75 13, etc.
+    const snPhoneRegex = /^(\+?221|00221)?\s*[ .-]?\s*7\d{2}([ .-]?\d{2}){3}$|^7\d{8}$/;
+
+    // Normalisation en format international pour WhatsApp: 2217XXXXXXXX
+    function toIntlSn(tel) {
+      const digits = (tel || '').toString().replace(/\D/g, '');
+      if (digits.startsWith('221') && digits.length === 12) return digits;
+      if (digits.startsWith('00221') && digits.length === 14) return digits.slice(2); // retire '00'
+      if (digits.length === 9 && digits.startsWith('7')) return '221' + digits;
+      return digits; // fallback
+    }
+
+    const encodePlus = (s) => encodeURIComponent(s).replace(/%20/g,'+');
 
     // Étape 1 — Adhésion (mode manuel: WhatsApp + Email)
     const adhForm = document.getElementById('adh-form');
     const formStatus = document.getElementById('form-status');
-    const TRESORIER_TEL = '+221 78 288 47 22';
     const TRESORIER_TEL_WA = '221782884722';
     const EMAIL_ASSO = 'ujeck2024@gmail.com';
 
@@ -382,28 +400,30 @@
         return;
       }
       if (!snPhoneRegex.test(tel)) {
-        formStatus.textContent = 'Numéro invalide. Exemple: +221 77 123 45 67';
+        formStatus.textContent = 'Numéro invalide. Exemple: 783357513 ou +221 78 335 75 13';
         formStatus.style.color = '#b00020';
         return;
       }
 
+      const telIntl = toIntlSn(tel);
+
       const msg =
         'Nouvelle demande d’adhésion UJECK%0A' +
-        '- Nom: ' + encode(nom) + '%0A' +
-        '- Téléphone: ' + encode(tel) + '%0A' +
-        '- Quartier/Village: ' + encode(quartier) + '%0A' +
-        '- Sections: ' + encode(sections.join(', ')) + '%0A' +
-        (motivation ? '- Motivation: ' + encode(motivation) + '%0A' : '') +
+        '- Nom: ' + encodePlus(nom) + '%0A' +
+        '- Téléphone: ' + encodePlus(telIntl) + '%0A' +
+        '- Quartier/Village: ' + encodePlus(quartier) + '%0A' +
+        '- Sections: ' + encodePlus(sections.join(', ')) + '%0A' +
+        (motivation ? '- Motivation: ' + encodePlus(motivation) + '%0A' : '') +
         '--%0AEnvoyé depuis le site UJECK';
 
-      // Tentative WhatsApp vers le trésorier
+      // WhatsApp vers le trésorier
       const waUrl = '[wa.me](https://wa.me/)' + TRESORIER_TEL_WA + '?text=' + msg;
       window.open(waUrl, '_blank', 'noopener');
 
-      // Fallback: ouvre un email si besoin
+      // Fallback email
       const mailto =
         'mailto:' + EMAIL_ASSO +
-        '?subject=' + encode('Demande d’adhésion — ' + nom) +
+        '?subject=' + encodePlus('Demande d’adhésion — ' + nom) +
         '&body=' + msg;
       setTimeout(() => { window.location.href = mailto; }, 400);
 
@@ -424,14 +444,15 @@
       const moyen = (fd.get('moyen') || '').toString().trim();
       const montant = (fd.get('montant') || '').toString().trim();
       const txn = (fd.get('txn') || '').toString().trim();
+      const telIntl = toIntlSn(tel);
 
       return (
         'Preuve de paiement UJECK%0A' +
-        '- Nom: ' + encode(nom) + '%0A' +
-        '- Téléphone: ' + encode(tel) + '%0A' +
-        '- Moyen: ' + encode(moyen) + '%0A' +
-        '- Montant: ' + encode(montant) + ' FCFA%0A' +
-        '- Référence: ' + encode(txn) + '%0A' +
+        '- Nom: ' + encodePlus(nom) + '%0A' +
+        '- Téléphone: ' + encodePlus(telIntl) + '%0A' +
+        '- Moyen: ' + encodePlus(moyen) + '%0A' +
+        '- Montant: ' + encodePlus(montant) + ' FCFA%0A' +
+        '- Référence: ' + encodePlus(txn) + '%0A' +
         '--%0AEnvoyé depuis le site UJECK'
       );
     }
@@ -453,7 +474,7 @@
         }
         if (!snPhoneRegex.test(tel)) {
           e.preventDefault();
-          proofStatus.textContent = 'Téléphone invalide. Exemple: +221 77 123 45 67';
+          proofStatus.textContent = 'Téléphone invalide. Exemple: 783357513 ou +221 78 335 75 13';
           proofStatus.style.color = '#b00020';
           return;
         }
@@ -465,7 +486,7 @@
         }
 
         const msg = buildProofMessage();
-        waProofBtn.href = '[wa.me](https://wa.me/)' + TRESORIER_TEL_WA + '?text=' + msg;
+        waProofBtn.href = '[wa.me](https://wa.me/221782884722?text=)' + msg;
       });
     }
 
@@ -486,7 +507,7 @@
         return;
       }
       if (!snPhoneRegex.test(tel)) {
-        proofStatus.textContent = 'Téléphone invalide. Exemple: +221 77 123 45 67';
+        proofStatus.textContent = 'Téléphone invalide. Exemple: 783357513 ou +221 78 335 75 13';
         proofStatus.style.color = '#b00020';
         return;
       }
@@ -496,14 +517,12 @@
         return;
       }
 
-      // WhatsApp vers le trésorier
       const msg = buildProofMessage();
-      window.open('[wa.me](https://wa.me/)' + TRESORIER_TEL_WA + '?text=' + msg, '_blank', 'noopener');
+      window.open('[wa.me](https://wa.me/221782884722?text=)' + msg, '_blank', 'noopener');
 
-      // Fallback email
       const mailto =
         'mailto:' + EMAIL_ASSO +
-        '?subject=' + encode('Preuve de paiement — ' + nom) +
+        '?subject=' + encodePlus('Preuve de paiement — ' + nom) +
         '&body=' + msg;
       setTimeout(() => { window.location.href = mailto; }, 400);
 
